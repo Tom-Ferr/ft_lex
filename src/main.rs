@@ -19,19 +19,27 @@ fn read_file(target: &String) -> io::Result<String> {
 
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    if args.len() < 2{
+    let args: Vec<String> = env::args().skip(1).collect();
+    if args.len() < 1{
         let buffer = read_stdin();
         match buffer{
-            Ok(v) => println!("stdin:\n{}", v),
-            Err(e) => {eprintln!("Error: {}", e); process::exit(1)}
+            Ok(v) => println!("<stdin>:\n{}", v),
+            Err(e) => {eprintln!("ft_lex: {}", e); process::exit(1)}
         }
     }
     else{
-        let buffer = read_file(&args[1]);
-        match buffer{
-            Ok(v) => println!("file:\n{}", v),
-            Err(e) => {eprintln!("Error: {}", e); process::exit(1)}
+        let mut result = String::new();
+        for file_name in args{
+            let buffer;
+            match file_name.as_str(){
+                "-" => buffer = read_stdin(),
+                _ => buffer = read_file(&file_name)
+            }
+            match buffer{
+                Ok(v) => result.push_str(&v),
+                Err(e) => {eprintln!("ft_lex: {}", e); process::exit(1)}
+            }
         }
+        println!("{}", result);
     }
 }
