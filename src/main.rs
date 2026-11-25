@@ -5,8 +5,14 @@ use std::process;
 
 fn read_stdin() -> io::Result<String>{
     let mut buffer = String::new();
-    let mut stdin = io::stdin();
-    stdin.read_to_string(&mut buffer)?;
+    let mut line = String::new();
+    let stdin = io::stdin();
+    while stdin.read_line(&mut line)? > 0{
+        buffer.push_str(&line);
+        if line.contains('\n') == false
+            {break;}
+        line.clear();
+    }
     Ok(buffer)
 }
 
