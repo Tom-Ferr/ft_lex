@@ -1,5 +1,5 @@
 RUST_DIR = src/
-RUST_FILES = main.rs
+RUST_FILES = main.rs lex_spec_parser.rs
 RUST_SRC = $(addprefix $(RUST_DIR), $(RUST_FILES))
 
 NAME = ft_lex
